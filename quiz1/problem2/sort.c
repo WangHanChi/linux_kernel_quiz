@@ -1,14 +1,27 @@
 #include <stdint.h>
 #include "list.h"
 
-struct item {                         
-    uint16_t i;
-    struct list_head list;
-};
-
-#define MAX_DEPTH 512
-static void list_sort_nr(struct list_head *head)
+static inline int cmpint(element_t *p1, element_t *p2)
 {
+    return strcmp(p1->value,p2->value);
+}
+#define MAX_DEPTH 512
+/* Sort elements of queue in ascending order */
+void q_sort(struct list_head *head)
+{
+    // if (!head || list_empty(head))
+    //     return;
+    // // cut off the link
+    // head->prev->next = NULL;
+    // head->next = merge_divide(head->next);
+
+    // struct list_head *before = head, *after = head->next;
+    // for (; after != NULL; after = after->next) {
+    //     after->prev = before;
+    //     before = after;
+    // }
+    // before->next = head;
+    // head->prev = before;
     if (list_empty(head) || list_is_singular(head))
         return;
 
@@ -28,15 +41,15 @@ static void list_sort_nr(struct list_head *head)
             struct list_head list_less, list_greater;
             INIT_LIST_HEAD(&list_less);
             INIT_LIST_HEAD(&list_greater);
-            struct item *pivot =
-                list_first_entry(&partition, struct item, list);
+            element_t *pivot =
+                list_first_entry(&partition, element_t, list);
             list_del(&pivot->list);
             INIT_LIST_HEAD(&pivot->list);
 
-            struct item *itm = NULL, *is = NULL;
-            list_for_each_entry_safe(itm, is, &partition, list) {
+            element_t *itm = NULL, *is = NULL;
+            list_for_each_entry_safe (itm, is, &partition, list) {
                 list_del(&itm->list);
-                if (cmpint(&itm->i, &pivot->i) < 0)
+                if (cmpint(itm, pivot) < 0)
                     list_move(&itm->list, &list_less);
                 else
                     list_move(&itm->list, &list_greater);
@@ -51,8 +64,8 @@ static void list_sort_nr(struct list_head *head)
             top++;
             list_splice_tail(&partition, &stack[top]);
             while (top >= 0 && list_is_singular(&stack[top])) {
-                struct item *tmp =
-                    list_first_entry(&stack[top], struct item, list);
+                element_t *tmp =
+                    list_first_entry(&stack[top], element_t, list);
                 list_del(&tmp->list);
                 INIT_LIST_HEAD(&stack[top--]);
                 list_add_tail(&tmp->list, head);
