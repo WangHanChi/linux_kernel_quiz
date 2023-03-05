@@ -1,14 +1,13 @@
 CC = gcc
 CFLAGS = -O1
 
-OBJS := xor_linked_list.out
+OBJS := xor_linked_list
 SOURCES := xor_linked_list.c
+DIR := ../../build
 
-test : xor
-	./$(OBJS)
+xor_linked_list:
+	$(CC) $(CFLAGS) $(SOURCES) -o $(DIR)/$(OBJS)
 
-xor: $(OBJS)
-	$(CC) $(CFLAGS) $(SOURCES) -o $(OBJS)
 
 clean:
-	$(RM) *.out
+	$(RM) $(DIR)/$(OBJS)

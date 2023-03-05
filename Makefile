@@ -1,15 +1,17 @@
-CC = gcc
-CFLAGS = -O1
 
-dirs = $(filter %/, $(wildcard [^_]*/))
-SUBDIRS = $(subst /,,$(subst common,,$(dirs)))
+test_dir := build
+DIR ?= $(shell pwd)/build
 
-all: $(SUBDIRS)
 
-$(SUBDIRS): common
-	@if [ -f $@/Makefile ]; then \
-		$(MAKE) -C $@; \
-	fi
+all: dir		
+	@echo "make start"	
+	make -C quiz1		
+	make -C quiz2		
+	@echo "make done
 
-common:
-	$(MAKE) -C $@
+
+dir:
+	$(shell if [ ! -e $(test_dir) ];then mkdir -p $(test_dir); fi)
+
+clean:
+	rm -f build/*

@@ -1,10 +1,12 @@
 CC = gcc
 CFLAGS = -O1
 
-EXE		= .elf
-SRC 	= concatenatedBinary
+OBJS := concatenatedBinary
+SOURCES := concatenatedBinary.c
+DIR := ../../build
 
 concatenatedBinary:
-	$(RM) ../../build/$(OBJS)
-	$(CC) $(CFLAGS) $(SOURCES) -o ../../build/$(OBJS)
-	../../build/$(OBJS)
+	$(CC) $(CFLAGS) $(SOURCES) -o $(DIR)/$(OBJS)
+
+test:
+	$(DIR)/$(OBJS)
