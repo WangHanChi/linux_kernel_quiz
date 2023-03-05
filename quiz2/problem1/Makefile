@@ -1,16 +1,16 @@
 CC = gcc
 CFLAGS = -O1
 
-OBJS := builtin_pow2.out
+OBJS := builtin_pow2
 SOURCES := builtin_pow2.c
 
-OBJS_test := builtin_test.out
+OBJS_test := builtin_test
 SOURCES_test := builtin_test.c
 
-OBJS_2 := pow2.out
+OBJS_2 := pow2
 SOURCES_2 := pow2.c
 
-OBJS_C := compare.out
+OBJS_C := compare
 SOURCES_C := compare.c
 
 builtin_pow2: $(OBJS)
