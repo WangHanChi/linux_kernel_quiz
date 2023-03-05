@@ -8,4 +8,7 @@ test : xor
 	./$(OBJS)
 
 xor: $(OBJS)
-	$(CC) $(SOURCES) -o $(OBJS)
+	$(CC) $(CFLAGS) $(SOURCES) -o $(OBJS)
+
+clean:
+	$(RM) $(OBJS)
