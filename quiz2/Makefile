@@ -2,3 +2,4 @@
 all:
 	make -C problem1
 	make -C problem2
+	make -C problem4
