@@ -4,10 +4,15 @@
 #include <time.h>
 #include <string.h>
 #include <stdio.h>
+#include "cpucycles.h"
 
 #define NUM 100
-#define CHUNK_SIZE 100000
 
+#ifdef CYCLE
+#define CHUNK_SIZE CYCLE
+#else /* DEBUG */
+#define CHUNK_SIZE 80000
+#endif /* DEBUG */
 
 
 size_t count_utf8(const char *buf, size_t len)
@@ -34,7 +39,7 @@ void random_string(char *s)
 {
     for (size_t i = 0; i < CHUNK_SIZE - 1; i++) {
         int x = rand();
-        s[i] = x % 127 + 1;
+        s[i] = x /*% 127 + 1*/;
     }
     s[CHUNK_SIZE - 1] = '\0';
 }
@@ -64,13 +69,21 @@ int main(int argc, char **argv)
 {
     srand( time(NULL) );
     char *s = malloc(sizeof(char) * CHUNK_SIZE);
-    for(int i = 0; i < NUM; ++i){
-        random_string(s);
-        // count_utf8(s, CHUNK_SIZE);
-        swar_count_utf8(s, CHUNK_SIZE);
-    }
+    random_string(s);
+    uint64_t normal_ticks[2], swar_ticks[2];
+    size_t count0, count1;
+    normal_ticks[0] = cpucycles();
+    count0 = count_utf8(s, CHUNK_SIZE);
+    normal_ticks[1] = cpucycles();
 
+    swar_ticks[0] = cpucycles();
+    count1 = swar_count_utf8(s, CHUNK_SIZE);
+    swar_ticks[1] = cpucycles();
+    
+    
+    printf("\n\nNormal\t method: %ld\nCounts of UTF-8 : %ld\n\n", normal_ticks[1] - normal_ticks[0], count0);
+    printf("SWAR\t method: %ld\nCounts of UTF-8 : %ld\n", swar_ticks[1] - swar_ticks[0], count1);
     free(s);
-    printf("Finish\n");
+    printf("\n\nDone !\n");
     return 0;
 }

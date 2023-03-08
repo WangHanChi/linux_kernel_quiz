@@ -21,10 +21,7 @@ size_t count_utf8(const char *buf, size_t len)
 size_t swar_count_utf8(const char *buf, size_t len)
 {
     const uint64_t *qword = (const uint64_t *) buf;
-    printf("qword : %ld\n", qword);
-    printf("len : %ld\n", len);
     const uint64_t *end = qword + (len >> 3);
-    printf("end : %ld\n", end);
 
     size_t count = 0;
     for (; qword != end; qword++) {
