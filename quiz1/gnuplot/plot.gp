@@ -13,4 +13,4 @@ set yrange [0:1.5]
 
 plot \
 "data.txt" using 1:2 with linespoints linewidth 2 title "Recursion",\
-"data.txt" using 1:3 with linespoints linewidth 2 title "Non-Recursion",\
+"data.txt" using 1:3 with linespoints linewidth 2 title "Iteration (Using stack)",\
