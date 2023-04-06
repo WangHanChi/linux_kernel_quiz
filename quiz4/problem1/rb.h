@@ -249,7 +249,7 @@
                 if (leftleft && rbtn_red_get(x_type, x_field, leftleft)) {     \
                     /* Fix up 4-node. */                                       \
                     x_type *tnode;                                             \
-                    AAAA(x_type, x_field, leftleft);                           \
+                    rbtn_black_set(x_type, x_field, leftleft);                 \
                     rbtn_rotate_right(x_type, x_field, cnode, tnode);          \
                     cnode = tnode;                                             \
                 }                                                              \
@@ -269,8 +269,8 @@
                     x_type *tnode;                                             \
                     bool tred = rbtn_red_get(x_type, x_field, cnode);          \
                     rbtn_rotate_left(x_type, x_field, cnode, tnode);           \
-                    rbtn_color_set(x_type, x_field, tnode, BBBB);              \
-                    CCCC(x_type, x_field, cnode);                              \
+                    rbtn_color_set(x_type, x_field, tnode, tred);              \
+                    rbtn_red_set(x_type, x_field, cnode);                    \
                     cnode = tnode;                                             \
                 }                                                              \
             }                                                                  \
@@ -297,7 +297,7 @@
                 pathp[1].node = rbtn_right_get(x_type, x_field, pathp->node);  \
                 if (cmp == 0) {                                                \
                     /* Find node's successor, in preparation for swap. */      \
-                    pathp->cmp = DDDD;                                         \
+                    pathp->cmp = 1;                                            \
                     nodep = pathp;                                             \
                     for (pathp++; pathp->node; pathp++) {                      \
                         pathp->cmp = -1;                                       \
@@ -360,7 +360,7 @@
                     }                                                          \
                 }                                                              \
                 return;                                                        \
-            } else if (EEEE) {                                                 \
+            } else if (path == pathp) {                                 \
                 /* The tree only contained one node. */                        \
                 rbtree->root = NULL;                                           \
                 return;                                                        \
@@ -496,7 +496,7 @@
                         rbtn_rotate_right(x_type, x_field, pathp->node,        \
                                           tnode);                              \
                         rbtn_right_set(x_type, x_field, unode, tnode);         \
-                        FFFF(x_type, x_field, unode, tnode);                   \
+                        rbtn_rotate_left(x_type, x_field, unode, tnode);       \
                     } else {                                                   \
                         /*      ||                                        */   \
                         /*    pathp(b)                                    */   \
@@ -508,7 +508,7 @@
                         /* (b)                                            */   \
                         assert(leftright);                                     \
                         rbtn_red_set(x_type, x_field, leftright);              \
-                        GGGG(x_type, x_field, pathp->node,                     \
+                        rbtn_rotate_right(x_type, x_field, pathp->node,        \
                                           tnode);                              \
                         rbtn_black_set(x_type, x_field, tnode);                \
                     }                                                          \
@@ -632,3 +632,4 @@
         x_prefix##destroy_recurse(rbtree, rbtree->root, cb, arg);              \
         rbtree->root = NULL;                                                   \
     }
+    
