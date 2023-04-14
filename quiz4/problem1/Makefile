@@ -5,6 +5,6 @@ OBJS := rb
 SOURCES := rb.cpp
 DIR := ../../build
 
-bucket_uniform:
+rb:
 	$(CC) $(CFLAGS) $(SOURCES) -o $(DIR)/$(OBJS)
 
